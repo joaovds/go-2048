@@ -1,6 +1,8 @@
 package ui
 
-import "github.com/rivo/tview"
+import (
+	"github.com/rivo/tview"
+)
 
 type Layout struct {
 	BoardComponent   *Board
