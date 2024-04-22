@@ -24,6 +24,7 @@ func (b *Board) Render(values [][]int) {
 	for r, row := range b.tiles {
 		for c, tile := range row {
 			tile.Value = values[r][c]
+			tile.Value = 32
 			tile.Render()
 		}
 	}

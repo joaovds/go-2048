@@ -31,11 +31,15 @@ func (c *colors) Red() {
 }
 
 func (c *colors) Green() {
-	SetTextColor("32")
+	SetTextColor256("119")
 }
 
 func (c *colors) BrightBlue() {
 	SetTextColor("94")
+}
+
+func (c *colors) Blue() {
+	SetTextColor("34")
 }
 
 func (c *colors) Magenta() {
@@ -46,8 +50,8 @@ func (c *colors) Cyan() {
 	SetTextColor("36")
 }
 
-func (c *colors) Yellow() {
-	SetTextColor("33")
+func (c *colors) Lime() {
+	SetTextColor("92")
 }
 
 func (c *colors) Orange() {
@@ -56,4 +60,12 @@ func (c *colors) Orange() {
 
 func (c *colors) Purple() {
 	SetTextColor256("129")
+}
+
+func (c *colors) Pink() {
+	SetTextColor256("213")
+}
+
+func (c *colors) WinColor() {
+	SetTextColor256("226")
 }
