@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"fmt"
+
 	"github.com/rivo/tview"
 )
 
@@ -29,37 +31,42 @@ func (b *Board) makeCells() *tview.Grid {
 		SetBorders(true)
 
 	cellsContainer.
-		AddItem(b.makeCell(), 0, 0, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 0, 1, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 0, 2, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 0, 3, 1, 1, 0, 0, false)
+		AddItem(b.makeCell(0), 0, 0, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 0, 1, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 0, 2, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 0, 3, 1, 1, 0, 0, false)
 
 	cellsContainer.
-		AddItem(b.makeCell(), 1, 0, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 1, 1, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 1, 2, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 1, 3, 1, 1, 0, 0, false)
+		AddItem(b.makeCell(0), 1, 0, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 1, 1, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 1, 2, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 1, 3, 1, 1, 0, 0, false)
 
 	cellsContainer.
-		AddItem(b.makeCell(), 2, 0, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 2, 1, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 2, 2, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 2, 3, 1, 1, 0, 0, false)
+		AddItem(b.makeCell(0), 2, 0, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 2, 1, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 2, 2, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 2, 3, 1, 1, 0, 0, false)
 
 	cellsContainer.
-		AddItem(b.makeCell(), 3, 0, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 3, 1, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 3, 2, 1, 1, 0, 0, false).
-		AddItem(b.makeCell(), 3, 3, 1, 1, 0, 0, false)
+		AddItem(b.makeCell(0), 3, 0, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 3, 1, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(0), 3, 2, 1, 1, 0, 0, false).
+		AddItem(b.makeCell(8), 3, 3, 1, 1, 0, 0, false)
 
 	return cellsContainer
 }
 
-func (b *Board) makeCell() *tview.Grid {
-	cellContent := tview.NewTextView().SetText("").SetTextAlign(tview.AlignCenter)
+func (b *Board) makeCell(value int) *tview.Grid {
+	valueStr := ""
+	if value != 0 {
+		valueStr = fmt.Sprint(value)
+	}
+
+	cellContent := tview.NewTextView().SetText(valueStr).SetTextAlign(tview.AlignCenter)
 
 	cell := tview.NewGrid().
-		SetRows(0, 0, 0).
+		SetRows(-2, 0, 0).
 		AddItem(cellContent, 1, 0, 1, 1, 0, 0, false)
 
 	return cell
