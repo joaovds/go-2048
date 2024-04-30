@@ -1,14 +1,16 @@
 package ui
 
+import "github.com/joaovds/go-2048/internal/logic"
+
 type Board struct {
 	tiles [][]Tile
 }
 
 func NewBoard() *Board {
-	tiles := make([][]Tile, SIZE)
+	tiles := make([][]Tile, logic.SIZE)
 
 	for r := range tiles {
-		tiles[r] = make([]Tile, SIZE)
+		tiles[r] = make([]Tile, logic.SIZE)
 
 		for c := range tiles[r] {
 			tiles[r][c] = NewTile(0, r, c)

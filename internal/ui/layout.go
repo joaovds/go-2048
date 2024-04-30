@@ -5,12 +5,7 @@ type Layout struct {
 	values [][]int
 }
 
-func NewLayout() *Layout {
-	values := make([][]int, SIZE)
-	for i := range values {
-		values[i] = make([]int, SIZE)
-	}
-
+func NewLayout(values [][]int) *Layout {
 	return &Layout{
 		board:  NewBoard(),
 		values: values,
