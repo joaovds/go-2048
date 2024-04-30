@@ -1,6 +1,6 @@
-package logic
+package movements
 
-type Direction int
+type Direction uint8
 
 const (
 	UP Direction = iota

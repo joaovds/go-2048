@@ -4,6 +4,7 @@ import (
 	"os"
 	"sync"
 
+	"github.com/joaovds/go-2048/internal/logic/movements"
 	"golang.org/x/term"
 )
 
@@ -38,26 +39,30 @@ func (g *Game) listenInput() {
 	defer g.Wg.Done()
 
 	for {
-		g.getDirection(g.readInput())
+		g.makeMove()
 	}
 }
 
-func (g *Game) getDirection(char rune) Direction {
-	var direction Direction
+func (g *Game) makeMove() {
+	movements.Move(g.getDirection(g.readInput()))
+}
+
+func (g *Game) getDirection(char rune) movements.Direction {
+	var direction movements.Direction
 
 	switch char {
 	case 'w', 'A':
-		direction = UP
+		direction = movements.UP
 	case 's', 'B':
-		direction = DOWN
+		direction = movements.DOWN
 	case 'a', 'D':
-		direction = LEFT
+		direction = movements.LEFT
 	case 'd', 'C':
-		direction = RIGHT
+		direction = movements.RIGHT
 	case 'q':
 		os.Exit(0)
 	default:
-		direction = NONE
+		direction = movements.NONE
 	}
 
 	return direction
