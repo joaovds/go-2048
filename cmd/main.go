@@ -6,14 +6,10 @@ import (
 )
 
 func main() {
-	initialValues := make([][]int, logic.SIZE)
-	for i := range initialValues {
-		initialValues[i] = make([]int, logic.SIZE)
-	}
+	game := logic.NewGame()
 
-	logic.SetValueEmptyPosition(initialValues)
-	logic.SetValueEmptyPosition(initialValues)
-
-	layout := ui.NewLayout(initialValues)
+	layout := ui.NewLayout(game)
 	layout.Render()
+
+	game.Wg.Wait()
 }

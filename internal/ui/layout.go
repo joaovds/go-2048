@@ -1,18 +1,20 @@
 package ui
 
+import "github.com/joaovds/go-2048/internal/logic"
+
 type Layout struct {
-	board  *Board
-	values [][]int
+	board *Board
+	game  *logic.Game
 }
 
-func NewLayout(values [][]int) *Layout {
+func NewLayout(game *logic.Game) *Layout {
 	return &Layout{
-		board:  NewBoard(),
-		values: values,
+		board: NewBoard(),
+		game:  game,
 	}
 }
 
 func (l *Layout) Render() {
 	ClearScreen()
-	l.board.Render(l.values)
+	l.board.Render(l.game.Values)
 }
