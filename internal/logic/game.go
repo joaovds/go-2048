@@ -9,12 +9,14 @@ import (
 )
 
 type Game struct {
-	Values [][]int
-	Wg     *sync.WaitGroup
+	Values       [][]int
+	Wg           *sync.WaitGroup
+	UpdateSignal chan struct{}
 }
 
 func NewGame() *Game {
 	wg := &sync.WaitGroup{}
+	updateSignal := make(chan struct{})
 
 	initialValues := make([][]int, SIZE)
 	for i := range initialValues {
@@ -25,8 +27,9 @@ func NewGame() *Game {
 	SetValueEmptyPosition(initialValues)
 
 	game := &Game{
-		Values: initialValues,
-		Wg:     wg,
+		Values:       initialValues,
+		Wg:           wg,
+		UpdateSignal: updateSignal,
 	}
 
 	wg.Add(1)
@@ -44,7 +47,22 @@ func (g *Game) listenInput() {
 }
 
 func (g *Game) makeMove() {
-	movements.Move(g.getDirection(g.readInput()))
+	direction := g.getDirection(g.readInput())
+
+	movements.Move(
+		direction,
+		g.Values,
+		g.UpdateSignal,
+	)
+
+	if (direction != movements.NONE) && HasEmptyCell(g.Values) {
+		SetValueEmptyPosition(g.Values)
+	}
+
+	if IsGameOver(g.Values) {
+		println("Game Over!")
+		os.Exit(0)
+	}
 }
 
 func (g *Game) getDirection(char rune) movements.Direction {

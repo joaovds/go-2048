@@ -11,5 +11,16 @@ func main() {
 	layout := ui.NewLayout(game)
 	layout.Render()
 
+	go listenUpdates(game, layout)
+
 	game.Wg.Wait()
+}
+
+func listenUpdates(game *logic.Game, layout *ui.Layout) {
+	for {
+		select {
+		case <-game.UpdateSignal:
+			layout.Render()
+		}
+	}
 }
