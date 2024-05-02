@@ -9,10 +9,11 @@ import (
 )
 
 type Game struct {
-	Values       [][]int
-	Score        int
-	Wg           *sync.WaitGroup
-	UpdateSignal chan struct{}
+	Values        [][]int
+	Score         int
+	NewPlayPoints int
+	Wg            *sync.WaitGroup
+	UpdateSignal  chan struct{}
 }
 
 func NewGame() *Game {
@@ -28,10 +29,11 @@ func NewGame() *Game {
 	SetValueEmptyPosition(initialValues)
 
 	game := &Game{
-		Values:       initialValues,
-		Score:        0,
-		Wg:           wg,
-		UpdateSignal: updateSignal,
+		Values:        initialValues,
+		Score:         0,
+		NewPlayPoints: 0,
+		Wg:            wg,
+		UpdateSignal:  updateSignal,
 	}
 
 	wg.Add(1)
@@ -66,6 +68,7 @@ func (g *Game) makeMove() {
 	)
 
 	g.Score += newPoints
+	g.NewPlayPoints = newPoints
 
 	if (direction != movements.NONE) && HasEmptyCell(g.Values) && changed(currentValues, g.Values) {
 		SetValueEmptyPosition(g.Values)
