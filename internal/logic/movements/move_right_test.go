@@ -43,7 +43,7 @@ func TestMoveRight(t *testing.T) {
 			},
 		},
 		{
-			description: "should merge pairs of equal values that are not side by side",
+			description: "should merge pairs of equal values that are side by side",
 			values: [][]int{
 				{0, 2, 2, 2},
 				{4, 4, 0, 4},
@@ -58,7 +58,7 @@ func TestMoveRight(t *testing.T) {
 			},
 		},
 		{
-			description: "should merge pairs of equal values that are not side by side",
+			description: "should merge pairs of equal values that are side by side",
 			values: [][]int{
 				{2, 2, 2, 2},
 				{4, 4, 8, 4},
