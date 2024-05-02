@@ -5,7 +5,7 @@ func Move(direction Direction, values [][]int) {
 	case UP:
 		moveUp(values)
 	case DOWN:
-		println("DOWN")
+		moveDown(values)
 	case LEFT:
 		moveLeft(values)
 	case RIGHT:
