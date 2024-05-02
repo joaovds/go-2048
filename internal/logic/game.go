@@ -49,8 +49,14 @@ func (g *Game) listenInput() {
 func (g *Game) makeMove() {
 	direction := g.getDirection(g.readInput())
 
-	currentValues := make([][]int, SIZE)
-	copy(currentValues, g.Values)
+	currentValues := make([][]int, len(g.Values))
+	for row := range len(currentValues) {
+		currentValues[row] = make([]int, len(g.Values[row]))
+
+		for col := range g.Values[row] {
+			currentValues[row][col] = g.Values[row][col]
+		}
+	}
 
 	movements.Move(
 		direction,
