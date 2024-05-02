@@ -20,7 +20,13 @@ func moveRight(values [][]int) {
 
 			if newRow[insertAt+1] == current {
 				newRow[insertAt+1] = current * 2
+				insertAt--
 			} else {
+				if newRow[insertAt+1] == 0 {
+					newRow[insertAt+1] = current
+					continue
+				}
+
 				newRow[insertAt] = current
 				insertAt--
 			}
