@@ -49,13 +49,16 @@ func (g *Game) listenInput() {
 func (g *Game) makeMove() {
 	direction := g.getDirection(g.readInput())
 
+	currentValues := make([][]int, SIZE)
+	copy(currentValues, g.Values)
+
 	movements.Move(
 		direction,
 		g.Values,
 		g.UpdateSignal,
 	)
 
-	if (direction != movements.NONE) && HasEmptyCell(g.Values) {
+	if (direction != movements.NONE) && HasEmptyCell(g.Values) && changed(currentValues, g.Values) {
 		SetValueEmptyPosition(g.Values)
 	}
 
