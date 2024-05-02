@@ -12,7 +12,7 @@ func Move(direction Direction, values [][]int, updateSignal chan<- struct{}) {
 		println("LEFT")
 		updateSignal <- struct{}{}
 	case RIGHT:
-		println("RIGHT")
+		moveRight(values)
 		updateSignal <- struct{}{}
 	}
 }
