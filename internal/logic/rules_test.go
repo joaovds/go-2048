@@ -139,3 +139,86 @@ func TestHasEmptyCell(t *testing.T) {
 		assert.False(t, HasEmptyCell(values))
 	})
 }
+
+func TestChanged(t *testing.T) {
+	t.Run("should return true when values are different", func(t *testing.T) {
+		casesTest := []struct {
+			values    [][]int
+			newValues [][]int
+		}{
+			{
+				values: [][]int{
+					{2, 2, 4, 8},
+					{2, 2, 4, 8},
+				},
+				newValues: [][]int{
+					{2, 2, 4, 8},
+					{2, 2, 4},
+				},
+			},
+			{
+				values: [][]int{
+					{2, 2, 4, 8},
+					{2, 2, 4, 8},
+				},
+				newValues: [][]int{
+					{2, 2, 4, 8},
+				},
+			},
+			{
+				values: [][]int{
+					{2, 2, 4, 8},
+					{2, 20, 4, 8},
+				},
+				newValues: [][]int{
+					{2, 2, 4, 8},
+					{2, 2, 4, 8},
+				},
+			},
+		}
+
+		for _, ct := range casesTest {
+			assert.True(t, changed(ct.values, ct.newValues))
+		}
+	})
+
+	t.Run("should return false when values are equal", func(t *testing.T) {
+		casesTest := []struct {
+			values    [][]int
+			newValues [][]int
+		}{
+			{
+				values: [][]int{
+					{2, 2, 4, 8},
+					{2, 2, 4, 8},
+				},
+				newValues: [][]int{
+					{2, 2, 4, 8},
+					{2, 2, 4, 8},
+				},
+			},
+			{
+				values: [][]int{
+					{2, 2, 4, 8},
+					{2, 20, 4, 8},
+				},
+				newValues: [][]int{
+					{2, 2, 4, 8},
+					{2, 20, 4, 8},
+				},
+			},
+			{
+				values: [][]int{
+					{2, 2, 4, 8},
+				},
+				newValues: [][]int{
+					{2, 2, 4, 8},
+				},
+			},
+		}
+
+		for _, ct := range casesTest {
+			assert.False(t, changed(ct.values, ct.newValues))
+		}
+	})
+}

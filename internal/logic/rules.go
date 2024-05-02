@@ -51,3 +51,23 @@ func HasEmptyCell(values [][]int) bool {
 
 	return false
 }
+
+func changed(values, newValues [][]int) bool {
+	if len(values) != len(newValues) {
+		return true
+	}
+
+	for row := range len(values) {
+		if len(values[row]) != len(newValues[row]) {
+			return true
+		}
+
+		for col := range len(values[row]) {
+			if values[row][col] != newValues[row][col] {
+				return true
+			}
+		}
+	}
+
+	return false
+}
