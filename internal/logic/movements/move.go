@@ -1,14 +1,16 @@
 package movements
 
-func Move(direction Direction, values [][]int) {
+func Move(direction Direction, values [][]int) (newPoints int) {
 	switch direction {
 	case UP:
-		moveUp(values)
+		newPoints = moveUp(values)
 	case DOWN:
-		moveDown(values)
+		newPoints = moveDown(values)
 	case LEFT:
-		moveLeft(values)
+		newPoints = moveLeft(values)
 	case RIGHT:
-		moveRight(values)
+		newPoints = moveRight(values)
 	}
+
+	return
 }

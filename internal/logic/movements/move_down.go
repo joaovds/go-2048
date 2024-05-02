@@ -1,6 +1,6 @@
 package movements
 
-func moveDown(values [][]int) {
+func moveDown(values [][]int) (newPoints int) {
 	for col := range len(values[0]) {
 		newCol := make([]int, len(values[0]))
 		insertAt := len(newCol) - 1
@@ -20,6 +20,7 @@ func moveDown(values [][]int) {
 
 			if newCol[insertAt+1] == current {
 				newCol[insertAt+1] = current * 2
+				newPoints += current * 2
 				insertAt--
 			} else {
 				if newCol[insertAt+1] == 0 {
@@ -36,4 +37,6 @@ func moveDown(values [][]int) {
 			values[row][col] = newCol[row]
 		}
 	}
+
+	return
 }

@@ -8,9 +8,10 @@ import (
 
 func TestMoveRight(t *testing.T) {
 	casesToTest := []struct {
-		description string
-		values      [][]int
-		expected    [][]int
+		description   string
+		values        [][]int
+		expected      [][]int
+		expectedScore int
 	}{
 		{
 			description: "should merge equal values",
@@ -26,6 +27,7 @@ func TestMoveRight(t *testing.T) {
 				{0, 0, 0, 16},
 				{0, 0, 0, 32},
 			},
+			expectedScore: 60,
 		},
 		{
 			description: "should merge equal values and skip zeros",
@@ -41,6 +43,7 @@ func TestMoveRight(t *testing.T) {
 				{0, 0, 0, 16},
 				{0, 0, 0, 32},
 			},
+			expectedScore: 60,
 		},
 		{
 			description: "should merge pairs of equal values that are side by side",
@@ -56,6 +59,7 @@ func TestMoveRight(t *testing.T) {
 				{0, 0, 8, 16},
 				{8, 16, 8, 16},
 			},
+			expectedScore: 28,
 		},
 		{
 			description: "should merge pairs of equal values that are side by side",
@@ -71,6 +75,7 @@ func TestMoveRight(t *testing.T) {
 				{0, 8, 16, 16},
 				{0, 8, 16, 32},
 			},
+			expectedScore: 64,
 		},
 		{
 			description: "more cases",
@@ -86,14 +91,16 @@ func TestMoveRight(t *testing.T) {
 				{0, 8, 4, 16},
 				{0, 2, 32, 128},
 			},
+			expectedScore: 52,
 		},
 	}
 
 	for _, ct := range casesToTest {
 		t.Run(ct.description, func(t *testing.T) {
-			moveRight(ct.values)
+			score := moveRight(ct.values)
 
 			assert.Equal(t, ct.expected, ct.values)
+			assert.Equal(t, ct.expectedScore, score)
 		})
 	}
 }

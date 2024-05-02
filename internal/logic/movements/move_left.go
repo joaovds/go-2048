@@ -1,6 +1,6 @@
 package movements
 
-func moveLeft(values [][]int) {
+func moveLeft(values [][]int) (newPoints int) {
 	for row := range len(values) {
 		newRow := make([]int, len(values[row]))
 		insertAt := 0
@@ -20,6 +20,7 @@ func moveLeft(values [][]int) {
 
 			if newRow[insertAt-1] == current {
 				newRow[insertAt-1] = current * 2
+				newPoints += current * 2
 				insertAt++
 			} else {
 				if newRow[insertAt-1] == 0 {
@@ -34,4 +35,6 @@ func moveLeft(values [][]int) {
 
 		values[row] = newRow
 	}
+
+	return
 }
