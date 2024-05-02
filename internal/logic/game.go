@@ -55,11 +55,11 @@ func (g *Game) makeMove() {
 	movements.Move(
 		direction,
 		g.Values,
-		g.UpdateSignal,
 	)
 
 	if (direction != movements.NONE) && HasEmptyCell(g.Values) && changed(currentValues, g.Values) {
 		SetValueEmptyPosition(g.Values)
+		g.UpdateSignal <- struct{}{}
 	}
 
 	if IsGameOver(g.Values) {
