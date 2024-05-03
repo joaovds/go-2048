@@ -1,4 +1,4 @@
-# 2048 Game
+# 2048 Game 🎮
 
 2048 terminal game written in Go (Golang) 🎮
 
@@ -9,6 +9,10 @@
 
 <div style="display: flex;">
     <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Golang.png" alt="logo go" width="30%" height="auto">
+</div>
+
+<div style="display: flex;">
+    <img src="./.github/assets/game.png" alt="game" height="auto">
 </div>
 
 ## Prerequisites
