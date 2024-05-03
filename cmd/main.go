@@ -10,6 +10,7 @@ func main() {
 
 	layout := ui.NewLayout(game)
 	layout.Render()
+	layout.Timer.Render(game.Stopwatch)
 
 	go listenUpdates(game, layout)
 
@@ -21,6 +22,9 @@ func listenUpdates(game *logic.Game, layout *ui.Layout) {
 		select {
 		case <-game.UpdateSignal:
 			layout.Render()
+		case <-game.Ticker.C:
+			game.Stopwatch.Update()
+			layout.Timer.Render(game.Stopwatch)
 		}
 	}
 }

@@ -3,15 +3,35 @@ package logic
 import (
 	"os"
 	"sync"
+	"time"
 
 	"github.com/joaovds/go-2048/internal/logic/movements"
 	"golang.org/x/term"
 )
 
+type Stopwatch struct {
+	Hours, Minutes, Seconds int
+}
+
+func (s *Stopwatch) Update() {
+	s.Seconds++
+	if s.Seconds == 60 {
+		s.Seconds = 0
+		s.Minutes++
+
+		if s.Minutes == 60 {
+			s.Minutes = 0
+			s.Hours++
+		}
+	}
+}
+
 type Game struct {
 	Values        [][]int
 	Score         int
 	NewPlayPoints int
+	Ticker        *time.Ticker
+	Stopwatch     *Stopwatch
 	Wg            *sync.WaitGroup
 	UpdateSignal  chan struct{}
 }
@@ -32,6 +52,8 @@ func NewGame() *Game {
 		Values:        initialValues,
 		Score:         0,
 		NewPlayPoints: 0,
+		Ticker:        time.NewTicker(time.Second),
+		Stopwatch:     new(Stopwatch),
 		Wg:            wg,
 		UpdateSignal:  updateSignal,
 	}
@@ -76,6 +98,8 @@ func (g *Game) makeMove() {
 	}
 
 	if IsGameOver(g.Values) {
+		g.Ticker.Stop()
+
 		println("Game Over!")
 		os.Exit(0)
 	}
@@ -94,6 +118,7 @@ func (g *Game) getDirection(char rune) movements.Direction {
 	case 'd', 'C':
 		direction = movements.RIGHT
 	case 'q':
+		g.Ticker.Stop()
 		os.Exit(0)
 	default:
 		direction = movements.NONE

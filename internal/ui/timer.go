@@ -12,7 +12,7 @@ func NewTimer() *Timer {
 	return new(Timer)
 }
 
-func (t *Timer) Render() {
+func (t *Timer) Render(stopwatch *logic.Stopwatch) {
 	row, col := t.calcCursorPosition()
 	MoveCursor(row, col)
 	Colors.BrightBlack()
@@ -26,7 +26,7 @@ func (t *Timer) Render() {
 	MoveCursor(row+1, col)
 	fmt.Print(DoubleVerticalLine)
 
-  fmt.Printf(" Time: %s ", "00:00:01")
+	fmt.Printf(" Time: %02d:%02d:%02d ", stopwatch.Hours, stopwatch.Minutes, stopwatch.Seconds)
 
 	MoveCursor(row+1, col+logic.SIZE*TILE_WIDTH-2)
 	fmt.Print(DoubleVerticalLine)
