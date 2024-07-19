@@ -20,8 +20,11 @@ func main() {
 func listenUpdates(game *logic.Game, layout *ui.Layout) {
 	for {
 		select {
-		case <-game.UpdateSignal:
+		case us := <-game.UpdateSignal:
 			layout.Render()
+			if us.GameOver {
+				// Layout Game Over Render
+			}
 		case <-game.Ticker.C:
 			game.Stopwatch.Update()
 			layout.Timer.Render(game.Stopwatch)

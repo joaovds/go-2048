@@ -26,6 +26,8 @@ func (s *Stopwatch) Update() {
 	}
 }
 
+type UpdateSignal struct{ GameOver bool }
+
 type Game struct {
 	Values        [][]int
 	Score         int
@@ -33,12 +35,12 @@ type Game struct {
 	Ticker        *time.Ticker
 	Stopwatch     *Stopwatch
 	Wg            *sync.WaitGroup
-	UpdateSignal  chan struct{}
+	UpdateSignal  chan *UpdateSignal
 }
 
 func NewGame() *Game {
 	wg := &sync.WaitGroup{}
-	updateSignal := make(chan struct{})
+	updateSignal := make(chan *UpdateSignal)
 
 	initialValues := make([][]int, SIZE)
 	for i := range initialValues {
@@ -94,11 +96,12 @@ func (g *Game) makeMove() {
 
 	if (direction != movements.NONE) && HasEmptyCell(g.Values) && changed(currentValues, g.Values) {
 		SetValueEmptyPosition(g.Values)
-		g.UpdateSignal <- struct{}{}
+		g.UpdateSignal <- &UpdateSignal{}
 	}
 
 	if IsGameOver(g.Values) {
 		g.Ticker.Stop()
+		g.UpdateSignal <- &UpdateSignal{GameOver: true}
 
 		println("Game Over!")
 		os.Exit(0)
