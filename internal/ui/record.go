@@ -6,32 +6,20 @@ import (
 	"github.com/joaovds/go-2048/internal/logic"
 )
 
-type Actions struct{}
+type Record struct{}
 
-func NewActions() *Actions {
-	return new(Actions)
+func NewRecord() *Record {
+	return new(Record)
 }
 
-type Action struct {
-	name    string
-	command string
-}
+func (r *Record) Render() {
+	timeSinceLastRecord := "3 days"
+	recordScore := 2048
+	recordTimeFormated := fmt.Sprintf("at %s", "00:09:17")
 
-var ActionsOptions []Action = []Action{
-	{
-		name:    "Restart",
-		command: "r",
-	},
-	{
-		name:    "Quit",
-		command: "q",
-	},
-}
-
-func (a *Actions) Render() {
-	row, col := a.calcCursorPosition()
+	row, col := r.calcCursorPosition()
 	MoveCursor(row, col)
-	Colors.Blue()
+	Colors.BrightBlue()
 
 	fmt.Print(DoubleTopLeftCorner)
 	for range 38 {
@@ -39,29 +27,38 @@ func (a *Actions) Render() {
 	}
 	fmt.Print(DoubleTopRightCorner)
 
-	for i, action := range ActionsOptions {
+	for i := range 2 {
 		MoveCursor(row+(i*2)+1, col)
 		fmt.Print(DoubleVerticalLine)
 
 		MoveCursor(row+(i*2)+1, col+4)
-		fmt.Print(action.name)
-		MoveCursor(row+(i*2)+1, col+34)
-		fmt.Print(action.command)
+
+		if i == 0 {
+			fmt.Print("Record")
+			MoveCursor(row+(i*2)+1, col+34-(len(timeSinceLastRecord)-1))
+			fmt.Print(timeSinceLastRecord)
+		} else {
+			fmt.Printf("Score: %d", recordScore)
+			MoveCursor(row+(i*2)+1, col+34-(len(recordTimeFormated)-1))
+			fmt.Printf(recordTimeFormated)
+		}
 
 		MoveCursor(row+(i*2)+1, col+39)
 		fmt.Print(DoubleVerticalLine)
 
 		var (
-			line        string
 			leftBorder  string
 			rightBorder string
 		)
 		if i == len(ActionsOptions)-1 {
-			line = DoubleHorizontalLine
 			leftBorder = DoubleBottomLeftCorner
 			rightBorder = DoubleBottomRightCorner
+
+			MoveCursor(row+i+i+2, col+1)
+			for range 38 {
+				fmt.Print(DoubleHorizontalLine)
+			}
 		} else {
-			line = HorizontalLine
 			leftBorder = DoubleVerticalLine
 			rightBorder = DoubleVerticalLine
 		}
@@ -69,19 +66,14 @@ func (a *Actions) Render() {
 		MoveCursor(row+i+i+2, col)
 		fmt.Print(leftBorder)
 
-		MoveCursor(row+i+i+2, col+1)
-		for range 38 {
-			fmt.Print(line)
-		}
-
 		MoveCursor(row+i+i+2, col+39)
 		fmt.Print(rightBorder)
 	}
 }
 
-func (a *Actions) calcCursorPosition() (int, int) {
+func (r *Record) calcCursorPosition() (int, int) {
 	col := logic.SIZE*TILE_WIDTH + 10
-	row := TILE_OFFSET + 1
+	row := TILE_OFFSET + 2 + (len(ActionsOptions) * 2)
 
 	return row, col
 }
