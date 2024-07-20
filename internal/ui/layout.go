@@ -6,6 +6,7 @@ type Layout struct {
 	game     *logic.Game
 	board    *Board
 	score    *Score
+	Actions  *Actions
 	GameOver *GameOver
 	Timer    *Timer
 }
@@ -15,6 +16,7 @@ func NewLayout(game *logic.Game) *Layout {
 		game:     game,
 		board:    NewBoard(),
 		score:    NewScore(),
+		Actions:  NewActions(),
 		GameOver: NewGameOver(),
 		Timer:    NewTimer(),
 	}
@@ -25,4 +27,5 @@ func (l *Layout) Render() {
 	l.board.Render(l.game.Values)
 	l.score.Render(l.game.Score, l.game.NewPlayPoints)
 	l.Timer.Render(l.game.Stopwatch)
+	l.Actions.Render()
 }
