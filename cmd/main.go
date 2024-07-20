@@ -26,6 +26,8 @@ func listenUpdates(game *logic.Game, layout *ui.Layout) {
 				layout.GameOver.Render()
 				game.Wg.Done()
 				break
+			} else if us.Restart {
+				game.Reset()
 			}
 			layout.Render()
 		case <-game.Ticker.C:

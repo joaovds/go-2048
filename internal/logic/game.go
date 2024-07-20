@@ -26,7 +26,10 @@ func (s *Stopwatch) Update() {
 	}
 }
 
-type UpdateSignal struct{ GameOver bool }
+type UpdateSignal struct {
+	GameOver bool
+	Restart  bool
+}
 
 type Game struct {
 	Values        [][]int
@@ -42,13 +45,7 @@ func NewGame() *Game {
 	wg := &sync.WaitGroup{}
 	updateSignal := make(chan *UpdateSignal)
 
-	initialValues := make([][]int, SIZE)
-	for i := range initialValues {
-		initialValues[i] = make([]int, SIZE)
-	}
-
-	SetValueEmptyPosition(initialValues)
-	SetValueEmptyPosition(initialValues)
+	initialValues := createInitValues()
 
 	game := &Game{
 		Values:        initialValues,
@@ -64,6 +61,25 @@ func NewGame() *Game {
 	go game.listenInput()
 
 	return game
+}
+
+func createInitValues() [][]int {
+	initialValues := make([][]int, SIZE)
+	for i := range initialValues {
+		initialValues[i] = make([]int, SIZE)
+	}
+	SetValueEmptyPosition(initialValues)
+	SetValueEmptyPosition(initialValues)
+
+	return initialValues
+}
+
+func (g *Game) Reset() {
+	g.Values = createInitValues()
+	g.Score = 0
+	g.NewPlayPoints = 0
+	g.Ticker = time.NewTicker(time.Second)
+	g.Stopwatch = new(Stopwatch)
 }
 
 func (g *Game) listenInput() {
@@ -117,6 +133,8 @@ func (g *Game) getDirection(char rune) movements.Direction {
 		direction = movements.LEFT
 	case 'd', 'C':
 		direction = movements.RIGHT
+	case 'r', 'R':
+		g.UpdateSignal <- &UpdateSignal{Restart: true}
 	case 'q':
 		g.Ticker.Stop()
 		os.Exit(0)
