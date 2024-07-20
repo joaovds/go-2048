@@ -74,7 +74,7 @@ func (t *Tile) setStyle() {
 		Colors.Blue()
 		break
 	case 4:
-		Colors.BrightBlue()
+		Colors.Magenta()
 		break
 	case 8:
 		Colors.Green()
@@ -89,13 +89,13 @@ func (t *Tile) setStyle() {
 		Colors.Orange()
 		break
 	case 128:
-		Colors.Magenta()
+		Colors.Red()
 		break
 	case 256:
 		Colors.Purple()
 		break
 	case 512:
-		Colors.Red()
+		Colors.BrightBlue()
 		break
 	case 1024:
 		Colors.Pink()
