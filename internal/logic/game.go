@@ -102,9 +102,6 @@ func (g *Game) makeMove() {
 	if IsGameOver(g.Values) {
 		g.Ticker.Stop()
 		g.UpdateSignal <- &UpdateSignal{GameOver: true}
-
-		println("Game Over!")
-		os.Exit(0)
 	}
 }
 
