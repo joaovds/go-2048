@@ -34,9 +34,7 @@ func (r *Record) Render() {
 		MoveCursor(row+(i*2)+1, col+4)
 
 		if i == 0 {
-			fmt.Print("Record")
-			MoveCursor(row+(i*2)+1, col+34-(len(timeSinceLastRecord)-1))
-			fmt.Print(timeSinceLastRecord)
+			fmt.Printf("Last record in %s", timeSinceLastRecord)
 		} else {
 			fmt.Printf("Score: %d", recordScore)
 			MoveCursor(row+(i*2)+1, col+34-(len(recordTimeFormated)-1))
