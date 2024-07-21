@@ -30,5 +30,5 @@ func (l *Layout) Render() {
 	l.score.Render(l.game.Score, l.game.NewPlayPoints)
 	l.Timer.Render(l.game.Stopwatch)
 	l.Actions.Render()
-	l.record.Render()
+	l.record.Render(l.game.GameData.Record.Datetime, l.game.GameData.Record.Score, l.game.GameData.Record.Time)
 }

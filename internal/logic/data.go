@@ -9,8 +9,9 @@ import (
 const filename = "data.json"
 
 type Record struct {
-	Score int           `json:"score"`
-	Time  time.Duration `json:"time"`
+	Score    int           `json:"score"`
+	Time     time.Duration `json:"time"`
+	Datetime *time.Time
 }
 
 type Data struct {
@@ -18,12 +19,18 @@ type Data struct {
 }
 
 func NewData() *Data {
-	return new(Data)
+	return &Data{Record: new(Record)}
 }
 
 func (d *Data) GetGameData() error {
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
-		defaultData := &Data{Record: new(Record)}
+		defaultData := &Data{
+			Record: &Record{
+				Score:    0,
+				Time:     0,
+				Datetime: nil,
+			},
+		}
 		file, err := json.MarshalIndent(defaultData, "", "  ")
 		if err != nil {
 			return err

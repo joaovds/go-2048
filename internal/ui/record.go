@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/joaovds/go-2048/internal/logic"
 )
@@ -12,9 +13,18 @@ func NewRecord() *Record {
 	return new(Record)
 }
 
-func (r *Record) Render() {
-	timeSinceLastRecord := "3 days"
-	recordScore := 2048
+func (r *Record) Render(timeSinceLastRecord *time.Time, recordScore int, recordTime time.Duration) {
+	var timeSinceLastRecordFormated string
+	if timeSinceLastRecord != nil {
+		timeSinceLastRecordDays := int((time.Now().Sub(*timeSinceLastRecord)).Hours() / 24)
+		fmt.Println(timeSinceLastRecordDays)
+		if timeSinceLastRecordDays == 0 {
+			timeSinceLastRecordFormated = "today!"
+		} else {
+			timeSinceLastRecordFormated = fmt.Sprintf("%d days", timeSinceLastRecordDays)
+		}
+	}
+
 	recordTimeFormated := fmt.Sprintf("at %s", "00:09:17")
 
 	row, col := r.calcCursorPosition()
@@ -34,7 +44,7 @@ func (r *Record) Render() {
 		MoveCursor(row+(i*2)+1, col+4)
 
 		if i == 0 {
-			fmt.Printf("Last record in %s", timeSinceLastRecord)
+			fmt.Printf("Last record in %s", timeSinceLastRecordFormated)
 		} else {
 			fmt.Printf("Score: %d", recordScore)
 			MoveCursor(row+(i*2)+1, col+34-(len(recordTimeFormated)-1))
