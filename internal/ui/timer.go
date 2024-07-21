@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/joaovds/go-2048/internal/logic"
 )
@@ -12,7 +13,7 @@ func NewTimer() *Timer {
 	return new(Timer)
 }
 
-func (t *Timer) Render(stopwatch *logic.Stopwatch) {
+func (t *Timer) Render(duration time.Duration) {
 	row, col := t.calcCursorPosition()
 	MoveCursor(row, col)
 	Colors.BrightBlack()
@@ -26,7 +27,7 @@ func (t *Timer) Render(stopwatch *logic.Stopwatch) {
 	MoveCursor(row+1, col)
 	fmt.Print(DoubleVerticalLine)
 
-	fmt.Printf(" Time: %02d:%02d:%02d ", stopwatch.Hours, stopwatch.Minutes, stopwatch.Seconds)
+	fmt.Printf(" Time: %02d:%02d:%02d", int(duration.Hours()), int(duration.Minutes())%60, int(duration.Seconds())%60)
 
 	MoveCursor(row+1, col+logic.SIZE*TILE_WIDTH-2)
 	fmt.Print(DoubleVerticalLine)

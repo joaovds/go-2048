@@ -28,7 +28,7 @@ func (l *Layout) Render() {
 	ClearScreen()
 	l.board.Render(l.game.Values)
 	l.score.Render(l.game.Score, l.game.NewPlayPoints)
-	l.Timer.Render(l.game.Stopwatch)
+	l.Timer.Render(l.game.GetGameDuration())
 	l.Actions.Render()
 	l.record.Render(l.game.GameData.Record.Datetime, l.game.GameData.Record.Score, l.game.GameData.Record.Time)
 }

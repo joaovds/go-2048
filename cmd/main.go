@@ -10,7 +10,7 @@ func main() {
 
 	layout := ui.NewLayout(game)
 	layout.Render()
-	layout.Timer.Render(game.Stopwatch)
+	layout.Timer.Render(game.GetGameDuration())
 
 	game.Wg.Add(1)
 	go listenUpdates(game, layout)
@@ -31,8 +31,7 @@ func listenUpdates(game *logic.Game, layout *ui.Layout) {
 			}
 			layout.Render()
 		case <-game.Ticker.C:
-			game.Stopwatch.Update()
-			layout.Timer.Render(game.Stopwatch)
+			layout.Timer.Render(game.GetGameDuration())
 		}
 	}
 }

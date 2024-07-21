@@ -10,23 +10,6 @@ import (
 	"golang.org/x/term"
 )
 
-type Stopwatch struct {
-	Hours, Minutes, Seconds int
-}
-
-func (s *Stopwatch) Update() {
-	s.Seconds++
-	if s.Seconds == 60 {
-		s.Seconds = 0
-		s.Minutes++
-
-		if s.Minutes == 60 {
-			s.Minutes = 0
-			s.Hours++
-		}
-	}
-}
-
 type UpdateSignal struct {
 	GameOver bool
 	Restart  bool
@@ -36,8 +19,8 @@ type Game struct {
 	Values        [][]int
 	Score         int
 	NewPlayPoints int
+	StartTime     time.Time
 	Ticker        *time.Ticker
-	Stopwatch     *Stopwatch
 	Wg            *sync.WaitGroup
 	UpdateSignal  chan *UpdateSignal
 	GameData      *Data
@@ -57,8 +40,8 @@ func NewGame() *Game {
 		Values:        initialValues,
 		Score:         0,
 		NewPlayPoints: 0,
+		StartTime:     time.Now(),
 		Ticker:        time.NewTicker(time.Second),
-		Stopwatch:     new(Stopwatch),
 		Wg:            wg,
 		UpdateSignal:  updateSignal,
 		GameData:      gameData,
@@ -85,8 +68,11 @@ func (g *Game) Reset() {
 	g.Values = createInitValues()
 	g.Score = 0
 	g.NewPlayPoints = 0
-	g.Ticker = time.NewTicker(time.Second)
-	g.Stopwatch = new(Stopwatch)
+	g.StartTime = time.Now()
+}
+
+func (g *Game) GetGameDuration() time.Duration {
+	return time.Now().Sub(g.StartTime)
 }
 
 func (g *Game) listenInput() {
@@ -123,7 +109,6 @@ func (g *Game) makeMove() {
 	}
 
 	if IsGameOver(g.Values) {
-		g.Ticker.Stop()
 		g.UpdateSignal <- &UpdateSignal{GameOver: true}
 	}
 }
@@ -143,7 +128,6 @@ func (g *Game) getDirection(char rune) movements.Direction {
 	case 'r', 'R':
 		g.UpdateSignal <- &UpdateSignal{Restart: true}
 	case 'q':
-		g.Ticker.Stop()
 		os.Exit(0)
 	default:
 		direction = movements.NONE
