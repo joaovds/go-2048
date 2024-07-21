@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"log"
 	"os"
 	"sync"
 	"time"
@@ -39,6 +40,7 @@ type Game struct {
 	Stopwatch     *Stopwatch
 	Wg            *sync.WaitGroup
 	UpdateSignal  chan *UpdateSignal
+	GameData      *Data
 }
 
 func NewGame() *Game {
@@ -46,6 +48,10 @@ func NewGame() *Game {
 	updateSignal := make(chan *UpdateSignal)
 
 	initialValues := createInitValues()
+	gameData := NewData()
+	if err := gameData.GetGameData(); err != nil {
+		log.Fatalf("Error when read file data: %s", err)
+	}
 
 	game := &Game{
 		Values:        initialValues,
@@ -55,6 +61,7 @@ func NewGame() *Game {
 		Stopwatch:     new(Stopwatch),
 		Wg:            wg,
 		UpdateSignal:  updateSignal,
+		GameData:      gameData,
 	}
 
 	wg.Add(1)
