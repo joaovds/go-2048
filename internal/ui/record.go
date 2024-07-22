@@ -17,7 +17,6 @@ func (r *Record) Render(timeSinceLastRecord *time.Time, recordScore int, recordT
 	var timeSinceLastRecordFormated string
 	if timeSinceLastRecord != nil {
 		timeSinceLastRecordDays := int((time.Now().Sub(*timeSinceLastRecord)).Hours() / 24)
-		fmt.Println(timeSinceLastRecordDays)
 		if timeSinceLastRecordDays == 0 {
 			timeSinceLastRecordFormated = "today!"
 		} else {
@@ -25,7 +24,7 @@ func (r *Record) Render(timeSinceLastRecord *time.Time, recordScore int, recordT
 		}
 	}
 
-	recordTimeFormated := fmt.Sprintf("at %s", "00:09:17")
+	recordTimeFormated := fmt.Sprintf("at %s", fmt.Sprintf(" Time: %02d:%02d:%02d", int(recordTime.Hours()), int(recordTime.Minutes())%60, int(recordTime.Seconds())%60))
 
 	row, col := r.calcCursorPosition()
 	MoveCursor(row, col)

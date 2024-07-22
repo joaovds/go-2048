@@ -11,7 +11,7 @@ const filename = "data.json"
 type Record struct {
 	Score    int           `json:"score"`
 	Time     time.Duration `json:"time"`
-	Datetime *time.Time
+	Datetime *time.Time    `json:"datetime"`
 }
 
 type Data struct {
@@ -50,7 +50,31 @@ func (d *Data) GetGameData() error {
 	data := new(Data)
 	json.Unmarshal(fileBytes, data)
 
-	d = data
+	d.Record = data.Record
 
 	return nil
+}
+
+func (d *Data) SaveGameRecord(newRecord *Data) error {
+	data, err := json.MarshalIndent(&newRecord, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(filename, data, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (d *Data) IsNewRecord(newRecordScore int, newRecordTime time.Duration) bool {
+	if newRecordScore >= d.Record.Score {
+		if newRecordTime <= d.Record.Time {
+			return true
+		}
+	}
+
+	return false
 }

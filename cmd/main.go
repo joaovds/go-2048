@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/joaovds/go-2048/internal/logic"
 	"github.com/joaovds/go-2048/internal/ui"
 )
@@ -23,6 +25,10 @@ func listenUpdates(game *logic.Game, layout *ui.Layout) {
 		select {
 		case us := <-game.UpdateSignal:
 			if us.GameOver {
+				if game.GameData.IsNewRecord(game.Score, game.GetGameDuration()) {
+					datetime := time.Now()
+					game.GameData.SaveGameRecord(&logic.Data{Record: &logic.Record{Score: game.Score, Time: game.GetGameDuration(), Datetime: &datetime}})
+				}
 				layout.GameOver.Render()
 				game.Wg.Done()
 				break
