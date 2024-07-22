@@ -12,7 +12,7 @@
 </div>
 
 <div style="display: flex;">
-    <img src="./.github/assets/game.png" alt="game" height="auto">
+    <img src="./.github/assets/2048.gif" alt="game 2048 gif" height="auto">
 </div>
 
 ## Prerequisites
@@ -20,20 +20,24 @@
 Make sure you have the following installed on your machine:
 
 - Go 1.22.2 or greater
-- Docker, docker compose
 
 ## Installation and execution
 
 1. Clone this repository to your local environment.
 2. Change to the project directory:
+
     ```bash
     cd go-2048
     ```
+
 3. Install the Go dependencies:
+
     ```bash
     go mod tidy
     ```
+
 4. Execute
+
     ```bash
     go run cmd/main.go
     ```
