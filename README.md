@@ -5,7 +5,6 @@
 ## Technology
 
 - [Go (Golang)](https://go.dev/)
-- [Docker](https://www.docker.com/)
 
 <div style="display: flex;">
     <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Golang.png" alt="logo go" width="30%" height="auto">
